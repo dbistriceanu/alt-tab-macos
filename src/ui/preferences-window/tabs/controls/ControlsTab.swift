@@ -9,10 +9,12 @@ class ControlsTab {
         "holdShortcut": { App.app.focusTarget() },
         "holdShortcut2": { App.app.focusTarget() },
         "holdShortcut3": { App.app.focusTarget() },
+        "holdShortcut4": { App.app.focusTarget() },
         "focusWindowShortcut": { App.app.focusTarget() },
         "nextWindowShortcut": { App.app.showUiOrCycleSelection(0, false) },
         "nextWindowShortcut2": { App.app.showUiOrCycleSelection(1, false) },
         "nextWindowShortcut3": { App.app.showUiOrCycleSelection(2, false) },
+        "nextWindowShortcut4": { App.app.showUiOrCycleSelection(3, false) },
         "previousWindowShortcut": { App.app.previousWindowShortcutWithRepeatingKey() },
         "→": { App.app.cycleSelection(.right) },
         "←": { App.app.cycleSelection(.left) },
@@ -41,11 +43,12 @@ class ControlsTab {
         let (holdShortcut, nextWindowShortcut, tab1View) = shortcutTab(0)
         let (holdShortcut2, nextWindowShortcut2, tab2View) = shortcutTab(1)
         let (holdShortcut3, nextWindowShortcut3, tab3View) = shortcutTab(2)
-        let tab6View = gestureTab(Preferences.gestureIndex)
-        tableGroupViews = [tab1View, tab2View, tab3View, tab6View]
+        let (holdShortcut4, nextWindowShortcut4, tab4View) = shortcutTab(3)
+        // let tab6View = gestureTab(Preferences.gestureIndex)
+        tableGroupViews = [tab1View, tab2View, tab3View, tab4View]
         // trigger shortcutChanged for these shortcuts to trigger .restrictModifiers
-        [holdShortcut, holdShortcut2, holdShortcut3].forEach { ControlsTab.shortcutChangedCallback($0[1] as! NSControl) }
-        [nextWindowShortcut, nextWindowShortcut2, nextWindowShortcut3].forEach { ControlsTab.shortcutChangedCallback($0[0] as! NSControl) }
+        [holdShortcut, holdShortcut2, holdShortcut3, holdShortcut4].forEach { ControlsTab.shortcutChangedCallback($0[1] as! NSControl) }
+        [nextWindowShortcut, nextWindowShortcut2, nextWindowShortcut3, nextWindowShortcut4].forEach { ControlsTab.shortcutChangedCallback($0[0] as! NSControl) }
         let tabs = StackView(tableGroupViews, .vertical)
         tabs.translatesAutoresizingMaskIntoConstraints = false
         tabs.fit()
@@ -54,7 +57,7 @@ class ControlsTab {
             NSLocalizedString("Shortcut 1", comment: ""),
             NSLocalizedString("Shortcut 2", comment: ""),
             NSLocalizedString("Shortcut 3", comment: ""),
-            NSLocalizedString("Gesture", comment: ""),
+            NSLocalizedString("Shortcut 4", comment: ""),
         ], trackingMode: .selectOne, target: self, action: #selector(switchTab(_:)))
         tab.selectedSegment = 0
         tab.segmentStyle = .automatic
@@ -63,7 +66,7 @@ class ControlsTab {
         let additionalControlsButton = NSButton(title: NSLocalizedString("Additional controls…", comment: ""), target: self, action: #selector(ControlsTab.showAdditionalControlsSettings))
         let shortcutsButton = NSButton(title: NSLocalizedString("Shortcuts when active…", comment: ""), target: self, action: #selector(ControlsTab.showShortcutsSettings))
         let tools = StackView([additionalControlsButton, shortcutsButton], .horizontal)
-        let view = TableGroupSetView(originalViews: [table, tab1View, tab2View, tab3View, tab6View], toolsViews: [tools], toolsAlignment: .trailing)
+        let view = TableGroupSetView(originalViews: [table, tab1View, tab2View, tab3View, tab4View], toolsViews: [tools], toolsAlignment: .trailing)
         view.translatesAutoresizingMaskIntoConstraints = false
         shortcutsWhenActiveSheet = ShortcutsWhenActiveSheet()
         additionalControlsSheet = AdditionalControlsSheet()
